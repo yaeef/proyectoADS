@@ -1,0 +1,161 @@
+#########################.:Requerimientos de Usuario:.#############################
+El sistema estara enfocado en gestionar de manera eficiente las:
+    -Calificaciones
+    -Asistencia
+    -Horarios
+    -Docente
+    -Comportamiento de los estudiantes
+    
+El sistema integra roles como:
+    -Administrador
+    -Docente
+    -Estudiante
+    -Padre o tutor
+    
+El sistema debe abarcar:
+    
+    Gestión académica:
+        -Calificaciones
+        -Asistencia
+        -Horarios
+        
+    Gestión del personal:
+        -Gestión del personal
+        -Horario de los docentes
+        
+    Gestión disciplinaria:
+        -Registro de comportamiento disciplinario
+        -Monitoreo de incidencias de comportamiento
+        -Registro de inasistencias y sanciones
+        
+    Gestión de roles y permisos a:
+        -Administrador (Máximo 3 administradores)
+        -Docente       (Máximo 25 docentes)
+        -Estudiante
+        -Padre o tutor
+###########################################################################
+
+    Secundaria:
+        -Solo turno matutino
+        -Cada periodo dura un año
+        
+    Grupo:
+        -Capacidad máxima: 60 estudiantes para grupos de nuevo ingreso.
+        -Capacidad máxima: 30 estudiantes para los demas grupos.
+        -Solo dos grupos por nivel academico.
+    
+    Docente:
+        -Tipo CA:Docente titular sin trabajo administrativo 
+        -Tipo CB: Trabajo administrativo (subdirector, etc) docente suplente por si falta un docente titular (Se le asigna el grupo el tiempo necesario)
+        -Solo puede dar 4 materias, máximo, por periodo escolar.
+        -Docente que de clase de taller no puede dar clases generales.
+        
+        
+    Horario:
+        -De 08:00-14:30 con 30 minutos de receso.
+        -4 materias al dia.
+        -La tira de materias se conforma de 6 materias en total.
+        -En caso de tiempo libre, este se rellena con algun taller.
+        -Debe llevar el aula donde se imparte este horario
+        
+    -Talleres
+        -3 talleres por grado academico(distintos entre grados)
+        
+    Información del estudiante:
+        -Boleta | B[4 digitos del año de inscripción][4 dígitos aleatorios]
+        -Nombre
+        -Apellidos
+        -Dirección
+        -Telefono del tutor
+        -Nombre del tutor
+        -Correo del tutor
+        -Padecimientos extra
+        -Contraseña (Generada de manera directa)   [INICIALES DEL NOMBRE COMPLETO]B[Últimos 4 digitos de la boleta]
+        -Inicia sesión con boleta y contraseña
+        
+    Información del tutor:
+        -Boleta del hijo
+        -Nombre
+        -Apellidos
+        -Dirección
+        -Telefono
+        -Correo
+        -Contraseña (Generada de manera directa)   [INICIALES DEL NOMBRE COMPLETO DEL HIJO]BA[Últimos 4 digitos de la boleta del hijo]
+        -Inicia sesión con boleta y contraseña
+        
+    Información del docente: 
+        -Número de empleado D[6 digitos]
+        -Nombre
+        -Apellidos
+        -Telefono
+        -Dirección
+        -fecha de registro
+        -fecha de nacimiento
+        -correo
+        -RFC
+        -Tipo
+        -Padecimientos extra
+        -Contraseña (Generada de manera directa) [Tipo][RFC][3 CARACTERES ALEATORIOS]
+        
+        
+    Información del Administrador: 
+        -Número de empleado A[6 digitos]
+        -Nombre
+        -Apellidos
+        -Telefono
+        -Dirección
+        -fecha de registro
+        -fecha de nacimiento
+        -correo
+        -RFC
+        -Padecimientos extra
+        -Contraseña (Generada de manera directa) [A][RFC][3 CARACTERES ALEATORIOS]
+        
+    Inicio de sesión:
+        -El inicio de sesión debe llevar Captcha para los diferentes perfiles excepto el Alumno
+        -El acceso se bloqueara despues de 3 intentos fallidos
+        
+        
+    Inscripción:
+        Se presenta padre o tutor con la información del alumno y se inscriba a uno de los dos grupos de primero.
+        
+    Reinscripción:
+        Se hace de manera automatica a menos que el tutor indique lo contrario.
+        
+    Permisos: 
+        -Administrador: Gestión completa del sistema. Usuarios, Horarios, Calificaciones, faltas, Comportamiento, Asignación de roles, Mantenimiento del sistema, ajuste del parametro de tiempo de cada sansión.
+        -Docente: Registro de calificaciones al final del ciclo escolar (Solo tres dias para subir calificaciones), registro de asistencia por clase, registro del comportamiento del estudiante en caso de que se requiera.
+        -Estudiante: Consulta de calificaciones, asistencia y horarios.
+        -Tutor: Consulta de calificaciones, asistencia y reportes del comportamiento de su hijo y recepción de solicitudes en caso de comportamiento grave.
+        
+    Generación de reportes:
+        -Se generan en formato pdf
+        -Se generan reportes de inasistencia semanales por grupo
+        -Se generan reportes globales al final del ciclo por alumno(Faltas, reportes de conducta, calificaciones tipo kardex)
+        
+        
+        
+    Reportes de conducta:
+        (LLeva número de folio de reporte)
+        1-La inicia el docente.
+        2-El administrador asigna sanción.
+        3-Si es grave envia el reporte al Tutor por correo electronico.
+        
+        
+        contenido:
+            -Nombre del alumno.
+            -Nombre del docente que lo inicio.
+            -Motivo
+            -Sanción (En caso de ya haberla asignado) 
+        
+    Recuperación de contraseña:
+        -Docente, se la solicita directamente a un administrador. (Que busque al administrador para solicitar contraseña)
+        -Alumno, se la solicita directamente a un administrador.  (Que busque al administrador para solicitar contraseña)
+        -Tutor, se la solicita a un administrador, via correo, y se le envia la contraseña que tenía
+        
+        
+        
+        
+        
+        
+    
