@@ -19,7 +19,7 @@
             <a class="nav__enlace boton--seleccion" href="index.php">Inicio</a>
             <a class="nav__enlace" href="#">Registro</a>
             <a class="nav__enlace" href="#">Acceso</a>
-            <a class="nav__enlace" href="admin.php">login</a>
+            <a class="nav__enlace" href="login.php">login</a>
         </div>
     </nav>
 

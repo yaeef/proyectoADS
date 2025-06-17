@@ -18,13 +18,13 @@
             <a class="nav__enlace" href="index.php">Inicio</a>
             <a class="nav__enlace" href="#">Registro</a>
             <a class="nav__enlace" href="#">Acceso</a>
-            <a class="nav__enlace boton--seleccion" href="admin.php">login</a>
+            <a class="nav__enlace boton--seleccion" href="login.php">login</a>
         </div>
     </nav>
     <main>
-        <section class="contenedor sombra">
+        <section  class="contenedor sombra">
         <h2 class="titulo-form">Módulo de Gestión Escolar</h2>
-        <form action="#" class="formulario" method="post">
+        <form action="../backend/login.php" class="formulario" method="post">
             <fieldset>
                 <legend>Inicio de sesión:</legend>
                 <div class="contenedor-campos">

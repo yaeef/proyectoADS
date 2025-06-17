@@ -3,7 +3,7 @@
 	#Funcion para crear conexion y retornarla
 	function conectarBD()
 	{
-		globar $server;
+		global $server;
 		global $user;
 		global $password;
 		global $database;
@@ -22,7 +22,7 @@
 	}
 
 	#Funcion para cerrar alguna conexion existente
-	function desconectarDB($conexion)
+	function desconectarBD($conexion)
 	{
 		mysqli_close($conexion);
 	}
