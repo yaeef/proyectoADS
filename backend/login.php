@@ -3,59 +3,76 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
-        #MANEJO DE NOTIFICACIONES
-        #if(!isset($_POST['usuario'])) {header("location:../frontend/admin.php?notif=-3");}
-        #if(!isset($_POST['password'])) {header("location:../frontend/admin.php?notif=-3");}
-
         $conexion = conectarBD();
         $usuario = $_POST['usuario'];
         $password = $_POST['password'];
-        $existeUsuario = evaluarExistenciaUsuario($conexion,$usuario);
+        $usuarioDB = validarUsuario($conexion,$usuario);
 
-        if($existeUsuario)
+        
+
+        if(!is_null($usuarioDB['usuario']))   //Si existe el usuario
         {
-            $admin = recuperarAdminConUsuario($conexion, $usuario);
-            if($password == $admin['contrasena'])
+            if($usuarioDB['bloqueado'] == '0')  //Si el usuario no esta bloqueado
             {
-                echo "Acceso autorizado";
-                echo $usuario;
+                if($usuarioDB['contrasena'] == $password) //Si coincide la contraseña
+                {
+                    if($usuarioDB['tipo'] == "admin")
+                    {
+                        session_start();
+                        $_SESSION['usuario'] = $usuarioDB['usuario'];
+                        $_SESSION['nombre'] = $usuarioDB['nombre'];
+                        $_SESSION['paterno'] = $usuarioDB['paterno'];
+                        $_SESSION['noEmpleado'] = $usuarioDB['noEmpleado'];
+                        $_SESSION['session'] = 'admin';
+                        
+                        var_dump($_SESSION);
 
-
-                #SE DEBE INICIAR SESION
-
-
-                #Quitar comentarios cuando ya se tenga a donde ir con header
-                desconectarBD($conexion);
-                #header("location:");
-                #exit();
+                        echo '<a href="logout.php">logout</a>';
+                        desconectarBD($conexion);
+                        #header("location:../frontend/profiles/admin/admin.php");
+                        exit();
+                    }
+                    if($usuarioDB['tipo'] == "docente")
+                    {
+                        
+                    }
+                    if($usuarioDB['tipo'] == "estudiante")
+                    {
+                        
+                    }
+                    if($usuarioDB['tipo'] == "tutor")
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    desconectarBD($conexion);
+                    header("location:../frontend/login.php?notif=3");
+                    exit();
+                }
 
             }
             else
             {
-                echo "Existe usuario pero contraseña incorrecta";
-                #Quitar comentarios cuando ya se tenga a donde ir con header
                 desconectarBD($conexion);
-                #header("location:");
-                #exit();
+                header("location:../frontend/login.php?notif=2");
+                exit();
             }
 
         }
         else
         {
-            echo "No existe el usuario :(";
-            #Quitar comentarios cuando ya se tenga a donde ir con header
             desconectarBD($conexion);
-            #header("location:");
-            #exit();
+            header("location:../frontend/login.php?notif=1");
+            exit();
         }
 
     }
     else #Aqui va a donde se redirige si  no se obtiene info mediante POST
     {
+        header("location:../frontend/login.php?notif=0");
         exit();
     }
-
-
-
 ?>
 

@@ -27,25 +27,6 @@
 		mysqli_close($conexion);
 	}
 
-	#Función para evaluar si un usuario existe en la BD
-	function evaluarExistenciaUsuario($conexion, $usuario)
-	{
-		$param = mysqli_real_escape_string($conexion, $usuario);
-		$query = "SELECT existirUsuario('$usuario') AS resultado;";
-		$resultado = mysqli_query($conexion, $query);
-
-		if($resultado)
-		{
-			$fila = mysqli_fetch_assoc($resultado);
-			$valor = $fila["resultado"];
-			return ($valor == 1) ? 1 : 0;
-		}
-		else
-		{
-			die("Consulta fallida de evaluación de existencias a MySQL: ". mysqli_error($conexion));
-		}
-	}
-
 	#Función que recupera los datos importantes del admin para crear sesion
 	function recuperarAdminConUsuario($conexion, $usuario)
 	{
@@ -69,4 +50,25 @@
         }
 	}
 
+	#Función que busca un usuario en la BD y si lo encuentra retorna sus datos dependiendo el tipo de usuario
+	function validarUsuario($conexion, $usuario)
+	{
+		$query = "CALL buscarUsuario('$usuario');";
+		$resultado = mysqli_query($conexion,$query);
+
+		if($resultado)
+		{
+			$fila = mysqli_fetch_assoc($resultado);
+			if(is_null($fila['usuario']))
+			{
+				return null;
+			}
+			return $fila;
+		}
+		else
+		{
+			echo "Error al recuperar Usuario de la BD: " . mysqli_error($conexion);
+            return null;
+		}
+	}
 ?>

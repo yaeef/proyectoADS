@@ -311,3 +311,117 @@ CREATE TABLE RecuperacionContrasena (
     CONSTRAINT PK_RECUPERACIONCONTRASENA PRIMARY KEY (idRecuperacion),
     CONSTRAINT PK_RECUPERACIONCONTRASENA_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
+
+
+#################################################################################################################################
+
+DROP DATABASE gestion;
+CREATE DATABASE gestion
+USE gestion;
+
+GRANT ALL PRIVILEGES ON gestion.* TO 'root'@'localhost';  --Accede permisos de la base de datos locker al usuario root
+FLUSH PRIVILEGES;
+
+/*Usuario*/
+CREATE TABLE Usuario
+(
+	idUsuario INT AUTO_INCREMENT,
+	usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(120) NOT NULL,
+    tipo ENUM('admin', 'docente', 'estudiante', 'tutor') NOT NULL,
+    bloqueado BOOLEAN DEFAULT FALSE,
+    ultimoLogin TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT PK_USUARIO PRIMARY KEY (idUsuario) 
+);
+
+/*Administrador*/
+CREATE TABLE Administrador 
+(
+    idAdmin INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL UNIQUE,
+    noEmpleado VARCHAR(7) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    paterno VARCHAR(50) NOT NULL,
+    materno VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    calle VARCHAR(50) NOT NULL,
+    colonia VARCHAR(50) NOT NULL,
+    CP VARCHAR(5) NOT NULL,
+    fechaNacimiento DATE NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    RFC VARCHAR(13) NOT NULL,
+    padecimientos VARCHAR(100),
+    CONSTRAINT PK_ADMINISTRADOR PRIMARY KEY (idAdmin),
+    CONSTRAINT FK_ADMINISTRADOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*Docente*/
+CREATE TABLE Docente 
+(
+    idDocente INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL UNIQUE,
+    noEmpleado VARCHAR(7) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    paterno VARCHAR(50) NOT NULL,
+    materno VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    calle VARCHAR(50) NOT NULL,
+    colonia VARCHAR(50) NOT NULL,
+    CP VARCHAR(5) NOT NULL,
+    fechaNacimiento DATE NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    RFC VARCHAR(13) NOT NULL,
+    tipo ENUM('CA', 'CB') NOT NULL,
+    padecimientos VARCHAR(100),
+    CONSTRAINT PK_DOCENTE PRIMARY KEY (idDocente),
+    CONSTRAINT FK_DOCENTE_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*Estudiante*/
+CREATE TABLE Estudiante 
+(
+    idEstudiante INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL UNIQUE,
+    boleta VARCHAR(9) NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    paterno VARCHAR(50) NOT NULL,
+    materno VARCHAR(50) NOT NULL,
+    calle VARCHAR(50) NOT NULL,
+    colonia VARCHAR(50) NOT NULL,
+    CP VARCHAR(5) NOT NULL,
+    fechaNacimiento DATE NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    CURP VARCHAR(18) NOT NULL,
+    padecimientos VARCHAR(100),
+    CONSTRAINT PK_ESTUDIANTE PRIMARY KEY (idEstudiante),
+    CONSTRAINT FK_ESTUDIANTE_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*Tutor*/
+CREATE TABLE Tutor 
+(
+    idTutor INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL UNIQUE,
+    nombre VARCHAR(50) NOT NULL,
+    paterno VARCHAR(50) NOT NULL,
+    materno VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    calle VARCHAR(50) NOT NULL,
+    colonia VARCHAR(50) NOT NULL,
+    CP VARCHAR(5) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    RFC VARCHAR(13) NOT NULL,
+    CONSTRAINT PK_TUTOR PRIMARY KEY (idTutor),
+    CONSTRAINT FK_TUTOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE TutorEstudiante 
+(
+    idTutorEstudiante INT AUTO_INCREMENT,
+    idTutor INT NOT NULL,
+    idEstudiante INT NOT NULL,
+    CONSTRAINT PK_TUTORESTUDIANTE_ESTUDIANTE PRIMARY KEY (idTutorEstudiante),
+    CONSTRAINT FK_TUTORESTUDIANTE_TUTOR FOREIGN KEY (idTutor) REFERENCES Tutor(idTutor) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_TUTORESTUDIANTE_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON DELETE CASCADE ON UPDATE CASCADE
+);
