@@ -44,18 +44,18 @@
                         <div class="card" >
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Usuario:<strong><?php echo "@".$_SESSION['usuario']; ?></strong></li>
-                                    <li class="list-group-item">Apellido: <strong><?php echo $_SESSION['paterno']; ?></strong></li>
-                                    <li class="list-group-item">#Emp: <strong><?php echo $_SESSION['noEmpleado']; ?></strong></li>
+                                    <li class="list-group-item">Usur:<strong><?php echo "@".$_SESSION['usuario']; ?></strong></li>
+                                    <li class="list-group-item">name: <strong><?php echo $_SESSION['nombre']; ?></strong></li>
+                                    <li class="list-group-item">idEmp: <strong><?php echo $_SESSION['noEmpleado']; ?></strong></li>
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">MENU DASHBOARD</h5>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><a href="#" class="card-link">Usuarios</a></li>
-                                    <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="alert('Haz hecho clic en el enlace');" class="card-link">Usuarios</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="cargarEntidad('Salones')" class="card-link">Salones</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
-                                    <li class="list-group-item"><a href="#" class="card-link">Salones</a></li>
+                                    <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Materias</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Sanciones</a></li>
                                 </ul>
@@ -63,20 +63,29 @@
                         </div>
                     </div>
 
-                    <!-- Card de navegación -->
+                    <!-- Card dinámico para vaciar con ajax -->
                     <div class="col-md-10 mb-4">
                         <div class="card text-center">
-                            
                             <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <!-- Div dinámico para vaciar con ajax. En este div es donde se mostrara el contenido dinámico -->
+                                <div id="divDinamico">
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <!-- Modal para CRUD, es una plantilla vacia que se llena dependiendo del modal necesario -->
+        <div id="modalCRUD" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modalContentCRUD">
+            <!-- Aquí se carga contenido dinámico dependiendo de la función del CRUD-->
+            </div>
+        </div>
+        </div>
         
     </main>
     <footer>
@@ -91,6 +100,7 @@
             </div>
         </div>
     </footer>
+    <script src="admin_salones.js"></script>   <!-- Este es el archivo JS donde se encuentra la lógica para mostrar los salones y modales de forma dinámica-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
