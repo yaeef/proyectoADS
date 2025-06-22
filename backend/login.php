@@ -18,18 +18,15 @@
                 {
                     if($usuarioDB['tipo'] == "admin")
                     {
-                        session_start();
+                        session_start();    //Creación de sesión
                         $_SESSION['usuario'] = $usuarioDB['usuario'];
                         $_SESSION['nombre'] = $usuarioDB['nombre'];
                         $_SESSION['paterno'] = $usuarioDB['paterno'];
                         $_SESSION['noEmpleado'] = $usuarioDB['noEmpleado'];
                         $_SESSION['session'] = 'admin';
                         
-                        var_dump($_SESSION);
-
-                        echo '<a href="logout.php">logout</a>';
                         desconectarBD($conexion);
-                        #header("location:../frontend/profiles/admin/admin.php");
+                        header("location:../frontend/admin.php");
                         exit();
                     }
                     if($usuarioDB['tipo'] == "docente")

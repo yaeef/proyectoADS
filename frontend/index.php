@@ -19,7 +19,18 @@
             <a class="nav__enlace boton--seleccion" href="index.php">Inicio</a>
             <a class="nav__enlace" href="#">Registro</a>
             <a class="nav__enlace" href="#">Acceso</a>
-            <a class="nav__enlace" href="login.php">login</a>
+            
+            <?php   //Manejo de direccionamiento cuando existe sesión abierta
+                session_start();
+                if(isset($_SESSION['session']) && $_SESSION['session'] == 'admin')
+                {
+                    echo '<a class="nav__enlace" href="admin.php">login</a>';
+                }
+                else
+                {
+                    echo '<a class="nav__enlace" href="login.php">login</a>';
+                }
+            ?>
         </div>
     </nav>
 

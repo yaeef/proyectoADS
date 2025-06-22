@@ -3,6 +3,7 @@
 {
     --primario: #AEDD2B;
     --secundario: #0A689B;
+    --rojo: #e92828e0;
     --gris:#757575;
     --grisClaro: #DFE9F3;
     --blanco: #ffffff;
@@ -109,6 +110,10 @@ img
 .boton--seleccion
 {
     background-color: var(--primario);
+}
+.boton--seleccion__logout
+{
+    background-color: var(--rojo);
 }
 .boton:hover
 {
