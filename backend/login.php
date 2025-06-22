@@ -1,5 +1,5 @@
 <?php
-    require "../db/conection/con.php";
+    require "../db/conection/conn.php";
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
