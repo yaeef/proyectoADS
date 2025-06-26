@@ -56,7 +56,7 @@
                                     <li class="list-group-item"><a href="#" onclick="cargarEntidad('Salones')" class="card-link">Salones</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
-                                    <li class="list-group-item"><a href="#" class="card-link">Materias</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="mostrarSeleccionGrado()" class="card-link">Materias</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Sanciones</a></li>
                                 </ul>
                             </div>
@@ -100,6 +100,7 @@
             </div>
         </div>
     </footer>
+    <script src="js/admin_materias.js"></script>
     <script src="js/admin_salones.js"></script>   <!-- Este es el archivo JS donde se encuentra la lógica para mostrar los salones y modales de forma dinámica-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/menu.js"></script>

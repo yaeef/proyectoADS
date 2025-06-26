@@ -286,32 +286,6 @@ CREATE TABLE ReporteSancion
 	CONSTRAINT FK_REPORTESANCION_ADMIN FOREIGN KEY (idAdmin) REFERENCES Administrador(idAdmin)
 );
 
-----ESTAS YA NO, YA ME DIO SUEÑO :(----------------
-
-
--- Tablas de auditoría y seguridad
-CREATE TABLE LogAcceso (
-    idLog INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    fechaHora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    ip VARCHAR(45),
-    accion VARCHAR(50) NOT NULL,
-    detalles VARCHAR(100) NOT NULL,
-    CONSTRAINT PK_LOGACCESO PRIMARY KEY (idLog),
-    CONSTRAINT PK_LOGACCESO_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
-);
-
-CREATE TABLE RecuperacionContrasena (
-    idRecuperacion INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    token VARCHAR(100) UNIQUE NOT NULL,
-    fechaSolicitud DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fechaExpiracion DATETIME NOT NULL,
-    utilizado BOOLEAN DEFAULT FALSE,
-    CONSTRAINT PK_RECUPERACIONCONTRASENA PRIMARY KEY (idRecuperacion),
-    CONSTRAINT PK_RECUPERACIONCONTRASENA_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
-);
-
 
 #################################################################################################################################
 
@@ -434,4 +408,79 @@ CREATE TABLE Salon
 	capacidad INT NOT NULL,
 	tipo ENUM('salon', 'taller') NOT NULL,
 	CONSTRAINT PK_SALON PRIMARY KEY (idSalon)
+);
+
+/*Periodo*/
+CREATE TABLE Periodo
+(
+	idPeriodo INT AUTO_INCREMENT,
+	fechaInicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	fechaFin  TIMESTAMP NULL,
+	estado ENUM('activo', 'inactivo', 'finalizado') DEFAULT 'inactivo',
+	CONSTRAINT PK_Periodo PRIMARY KEY(idPeriodo)
+);
+
+/*Grado*/
+CREATE TABLE Grado
+(
+	idGrado INT AUTO_INCREMENT,
+	grado TINYINT(1) NOT NULL,
+	CONSTRAINT PK_GRADO PRIMARY KEY (idGrado)
+);
+
+/*Grupo*/
+CREATE TABLE Grupo
+(
+	idGrupo INT AUTO_INCREMENT,
+	idGrado INT NOT NULL,
+	idPeriodo INT NOT NULL,
+	idSalon INT NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
+	capacidad INT NOT NULL,
+	turno ENUM('matutino') DEFAULT 'matutino',
+	CONSTRAINT PK_GRUPO PRIMARY KEY (idGrupo),
+	CONSTRAINT FK_GRUPO_GRADO FOREIGN KEY (idGrado) REFERENCES Grado(idGrado) ON UPDATE CASCADE,
+	CONSTRAINT FK_GRUPO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo) ON UPDATE CASCADE,
+	CONSTRAINT FK_GRUPO_SALON FOREIGN KEY (idSalon) REFERENCES Salon(idSalon) ON UPDATE CASCADE
+);
+
+/*Materia*/
+CREATE TABLE Materia
+(
+	idMateria INT AUTO_INCREMENT,
+	idGrupo INT NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
+	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
+	CONSTRAINT PK_Materia PRIMARY KEY (idMateria)
+);
+
+/*GrupoMateria*/
+CREATE TABLE GrupoMateria
+(
+	idGrupoMateria INT AUTO_INCREMENT,
+	idGrupo INT NOT NULL,
+    idMateria INT NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
+	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
+	CONSTRAINT PK_Materia PRIMARY KEY (idGrupoMateria),
+    CONSTRAINT FK_GRUPOMATERIA_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_GRUPOMATERIA_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/*MateriaAlumno*/
+CREATE TABLE MateriaAlumno
+(
+	idMateriaAlumno INT AUTO_INCREMENT,
+	idEstudiante INT NOT NULL,
+	idMateria INT NOT NULL,
+	idPeriodo INT NOT NULL,
+	idDocente INT NOT NULL,
+	calificacion DECIMAL(3,1) NOT NULL,
+	fechaRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
+	noIntento TINYINT(1) NOT NULL,
+	CONSTRAINT PK_MATERIAALUMNO PRIMARY KEY (idMateriaAlumno),
+	CONSTRAINT FK_MATERIAALUMNO_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
+	CONSTRAINT FK_MATERIAALUMNO_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
+	CONSTRAINT FK_MATERIAALUMNO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo),
+	CONSTRAINT FK_MATERIAALUMNO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente)
 );
