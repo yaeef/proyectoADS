@@ -52,8 +52,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">MENU DASHBOARD</h5>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><a href="#" onclick="alert('Haz hecho clic en el enlace');" class="card-link">Usuarios</a></li>
-                                    <li class="list-group-item"><a href="#" onclick="cargarEntidad('Salones')" class="card-link">Salones</a></li>
+                                    <a href="#" onclick="cargarUsuarios()" class="card-link">Usuarios</a>
+                                    <a href="#" onclick="cargarSalones()" class="card-link">Salones</a>
                                     <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
                                     <li class="list-group-item"><a href="#" onclick="mostrarSeleccionGrado()" class="card-link">Materias</a></li>
@@ -100,6 +100,7 @@
             </div>
         </div>
     </footer>
+    <script src="js/admin_usuarios.js"></script>
     <script src="js/admin_materias.js"></script>
     <script src="js/admin_salones.js"></script>   <!-- Este es el archivo JS donde se encuentra la lógica para mostrar los salones y modales de forma dinámica-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
