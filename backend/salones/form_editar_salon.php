@@ -1,19 +1,19 @@
 <?php
-require_once "../../db/conection/conn.php";
-$conexion = conectarBD();
+    require_once "../../db/conection/conn.php";
+    $conexion = conectarBD();
 
-$idSalon = $_GET['idSalon'] ?? null;
-if (!$idSalon) {
-    echo "<div class='alert alert-danger'>ID inválido</div>";
-    exit;
-}
+    $idSalon = $_GET['idSalon'] ?? null;
+    if (!$idSalon) {
+        echo "<div class='alert alert-danger'>ID inválido</div>";
+        exit;
+    }
 
-$result = mysqli_query($conexion, "SELECT * FROM salon WHERE idSalon = $idSalon");
-if (!$result || mysqli_num_rows($result) == 0) {
-    echo "<div class='alert alert-warning'>Salón no encontrado</div>";
-    exit;
-}
-$salon = mysqli_fetch_assoc($result);
+    $result = mysqli_query($conexion, "SELECT * FROM Salon WHERE idSalon = $idSalon");
+    if (!$result || mysqli_num_rows($result) == 0) {
+        echo "<div class='alert alert-warning'>Salón no encontrado</div>";
+        exit;
+    }
+    $salon = mysqli_fetch_assoc($result);
 ?>
 
 <div class="modal-header">

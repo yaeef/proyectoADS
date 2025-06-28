@@ -53,10 +53,11 @@ CREATE TABLE Grupo
 CREATE TABLE Materia
 (
 	idMateria INT AUTO_INCREMENT,
-	idGrupo INT NOT NULL,
+	idGrado INT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
-	CONSTRAINT PK_Materia PRIMARY KEY (idMateria)
+	CONSTRAINT PK_Materia PRIMARY KEY (idMateria),
+	CONSTRAINT FK_MATERIA_GRADO FOREIGN KEY(idGrado) REFERENCES Grado(idGrado) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*GrupoMateria*/

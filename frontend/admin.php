@@ -56,7 +56,7 @@
                                     <li class="list-group-item"><a href="#" onclick="cargarSalones()" class="card-link">Salones</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
-                                    <li class="list-group-item"><a href="#" onclick="mostrarSeleccionGrado()" class="card-link">Materias</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="cargarMaterias()" class="card-link">Materias</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Sanciones</a></li>
                                 </ul>
                             </div>
