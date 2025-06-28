@@ -52,8 +52,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">MENU DASHBOARD</h5>
                                 <ul class="list-group list-group-flush">
-                                    <a href="#" onclick="cargarUsuarios()" class="card-link">Usuarios</a>
-                                    <a href="#" onclick="cargarSalones()" class="card-link">Salones</a>
+                                    <li class="list-group-item"><a href="#" onclick="cargarUsuarios()" class="card-link">Usuarios</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="cargarSalones()" class="card-link">Salones</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
                                     <li class="list-group-item"><a href="#" onclick="mostrarSeleccionGrado()" class="card-link">Materias</a></li>

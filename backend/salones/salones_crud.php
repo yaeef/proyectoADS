@@ -3,7 +3,6 @@
     $conexion = conectarBD();
 
     $tipoFiltro = $_GET['tipo'] ?? 'todos';
-
     $query = "SELECT * FROM Salon";
     if ($tipoFiltro !== 'todos') {
         $query .= " WHERE tipo = '$tipoFiltro'";

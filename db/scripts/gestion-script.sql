@@ -11,6 +11,7 @@ CREATE TABLE Salon
 	idSalon INT AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
 	capacidad INT NOT NULL,
+	tipo ENUM('salon', 'taller') DEFAULT 'salon',
 	CONSTRAINT PK_SALON PRIMARY KEY (idSalon)
 );
 
@@ -240,7 +241,7 @@ CREATE TABLE GrupoEstudiante
 CREATE TABLE Sancion
 (
 	idSancion INT AUTO_INCREMENT,
-	descripcion VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	descripcion VARCHAR(100) NOT NULL,
 	duracionDias TINYINT(1) NOT NULL,
 	gravedad ENUM('leve', 'moderada', 'grave') NOT NULL,
 	CONSTRAINT PK_SANCION PRIMARY KEY (idSancion)
@@ -255,8 +256,8 @@ CREATE TABLE ReporteConducta
 	idPeriodo INT NOT NULL,
 	fechaIncidente DATETIME NOT NULL,
 	fechaReporte DATETIME DEFAULT CURRENT_TIMESTAMP,
-	motivo VARCHAR(100) CHARACTER SET utf8 NOT NULL,
-	detalles VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	motivo VARCHAR(100) NOT NULL,
+	detalles VARCHAR(100) NOT NULL,
 	estado ENUM('iniciado', 'asignado', 'notificado', 'resuelto') DEFAULT 'iniciado',
 	CONSTRAINT PK_REPORTECONDUCTA PRIMARY KEY (idReporteConducta),
 	CONSTRAINT FK_REPORTECONDUCTA_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
@@ -274,7 +275,7 @@ CREATE TABLE ReporteSancion
 	fechaAsignacion DATETIME DEFAULT CURRENT_TIMESTAMP,
 	fechaInicio DATE NOT NULL,
 	fechaFin DATE NOT NULL,
-	comentarios VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	comentarios VARCHAR(100) NOT NULL,
 	CONSTRAINT PK_REPORTESANCION PRIMARY KEY (idReporteSancion),
 	CONSTRAINT FK_REPORTESANCION_REPORTECONDUCTA FOREIGN KEY (idReporteConducta) REFERENCES ReporteConducta(idReporteConducta),
 	CONSTRAINT FK_REPORTESANCION_SANCION FOREIGN KEY (idSancion) REFERENCES Sancion(idSancion),

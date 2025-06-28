@@ -59,3 +59,19 @@ function eliminarUsuario(id) {
         }
     });
 }
+
+function filtrarUsuariosPorTipo(tipo) {
+    $.ajax({
+        url: '../backend/admin_users/usuarios_crud.php',
+        method: 'GET',
+        data: { tipo: tipo },
+        success: function (data) {
+            $('#divDinamico').html(data);
+            $('#filtroTipo').val(tipo);
+        },
+        error: function () 
+        {   
+            $('#divDinamico').html('<div class="alert alert-danger">Error al filtrar usuarios.</div>');
+        }
+    });
+}
