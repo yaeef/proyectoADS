@@ -5,8 +5,16 @@ USE gestion;
 GRANT ALL PRIVILEGES ON gestion.* TO 'root'@'localhost';  --Accede permisos de la base de datos locker al usuario root
 FLUSH PRIVILEGES;
 
+/*Salon*/
+CREATE TABLE Salon
+(
+	idSalon INT AUTO_INCREMENT,
+	nombre VARCHAR(50) NOT NULL,
+	capacidad INT NOT NULL,
+	CONSTRAINT PK_SALON PRIMARY KEY (idSalon)
+);
 
-/*Tabla Periodo*/
+/*Periodo*/
 CREATE TABLE Periodo
 (
 	idPeriodo INT AUTO_INCREMENT,
@@ -24,16 +32,6 @@ CREATE TABLE Grado
 	CONSTRAINT PK_GRADO PRIMARY KEY (idGrado)
 );
 
-/*Salon*/
-CREATE TABLE Salon
-(
-	idSalon INT AUTO_INCREMENT,
-	nombre VARCHAR(50) CHARACTER SET utf8 NOT NULL,
-	capacidad INT NOT NULL,
-	tipo ENUM('salon', 'taller') NOT NULL,
-	CONSTRAINT PK_SALON PRIMARY KEY (idSalon)
-);
-
 /*Grupo*/
 CREATE TABLE Grupo
 (
@@ -41,7 +39,7 @@ CREATE TABLE Grupo
 	idGrado INT NOT NULL,
 	idPeriodo INT NOT NULL,
 	idSalon INT NOT NULL,
-	nombre VARCHAR(50) CHARACTER SET utf8 NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
 	capacidad INT NOT NULL,
 	turno ENUM('matutino') DEFAULT 'matutino',
 	CONSTRAINT PK_GRUPO PRIMARY KEY (idGrupo),
@@ -55,246 +53,23 @@ CREATE TABLE Materia
 (
 	idMateria INT AUTO_INCREMENT,
 	idGrupo INT NOT NULL,
-	nombre VARCHAR(50) CHARACTER SET utf8 NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
 	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
-	CONSTRAINT PK_Materia PRIMARY KEY (idMateria),
-	CONSTRAINT FK_MATERIA_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON UPDATE CASCADE
+	CONSTRAINT PK_Materia PRIMARY KEY (idMateria)
 );
 
-/*Taller*/
-CREATE TABLE Taller
+/*GrupoMateria*/
+CREATE TABLE GrupoMateria
 (
-	idTaller INT AUTO_INCREMENT,
-	idMateria INT NOT NULL,
-	nombre VARCHAR(50) CHARACTER SET utf8 NOT NULL,
-	CONSTRAINT PK_TALLER PRIMARY KEY (idTaller),
-	CONSTRAINT FK_TALLER_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/*Usuario*/
-CREATE TABLE Usuario
-(
-	idUsuario INT AUTO_INCREMENT,
-	usuario VARCHAR(50) NOT NULL,
-    contrasena VARCHAR(120) NOT NULL,
-    tipo ENUM('admin', 'docente', 'estudiante', 'tutor') NOT NULL,
-    bloqueado BOOLEAN DEFAULT FALSE,
-    ultimoLogin TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT PK_USUARIO PRIMARY KEY (idUsuario) 
-);
-
-/*Administrado*/
-CREATE TABLE Administrador (
-    idAdmin INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    noEmpleado VARCHAR(7) UNIQUE NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    paterno VARCHAR(50) NOT NULL,
-    materno VARCHAR(50) NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
-    calle VARCHAR(50) NOT NULL,
-    colonia VARCHAR(50) NOT NULL,
-    CP VARCHAR(50) NOT NULL,
-    fechaNacimiento DATE NOT NULL,
-    correo VARCHAR(100) NOT NULL,
-    RFC VARCHAR(13) NOT NULL,
-    padecimientos VARCHAR(100),
-    CONSTRAINT PK_ADMINISTRADOR PRIMARY KEY (idAdmin),
-    CONSTRAINT FK_ADMINISTRADOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/*Docente*/
-CREATE TABLE Docente (
-    idDocente INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    noEmpleado VARCHAR(7) UNIQUE NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    paterno VARCHAR(50) NOT NULL,
-    materno VARCHAR(50) NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
-    calle VARCHAR(50) NOT NULL,
-    colonia VARCHAR(50) NOT NULL,
-    CP VARCHAR(50) NOT NULL,
-    fechaNacimiento DATE NOT NULL,
-    correo VARCHAR(100) NOT NULL,
-    RFC VARCHAR(13) NOT NULL,
-    tipo ENUM('CA', 'CB') NOT NULL,
-    padecimientos VARCHAR(100),
-    CONSTRAINT PK_DOCENTE PRIMARY KEY (idDocente),
-    CONSTRAINT FK_DOCENTE_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/*Estudiante*/
-CREATE TABLE Estudiante (
-    idEstudiante INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    boleta VARCHAR(9) UNIQUE NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    paterno VARCHAR(50) NOT NULL,
-    materno VARCHAR(50) NOT NULL,
-    calle VARCHAR(50) NOT NULL,
-    colonia VARCHAR(50) NOT NULL,
-    CP VARCHAR(50) NOT NULL,
-    fechaNacimiento DATE NOT NULL,
-    correo VARCHAR(100) NOT NULL,
-    CURP VARCHAR(18) NOT NULL,
-    padecimientos VARCHAR(100),
-    CONSTRAINT PK_ESTUDIANTE PRIMARY KEY (idEstudiante),
-    CONSTRAINT FK_ESTUDIANTE_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/*Tutor*/
-CREATE TABLE Tutor (
-    idTutor INT AUTO_INCREMENT,
-    idUsuario INT NOT NULL,
-    idEstudiante INT NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    paterno VARCHAR(50) NOT NULL,
-    materno VARCHAR(50) NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
-    calle VARCHAR(50) NOT NULL,
-    colonia VARCHAR(50) NOT NULL,
-    CP VARCHAR(50) NOT NULL,
-    correo VARCHAR(100) NOT NULL,
-    RFC VARCHAR(18) NOT NULL,
-    CONSTRAINT PK_TUTOR PRIMARY KEY (idTutor),
-    CONSTRAINT FK_TUTOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FK_TUTOR_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON UPDATE CASCADE
-);
-
-/*GrupoEstudiante*/
-CREATE TABLE GrupoEstudiante
-(
-	idGrupoEstudiante INT AUTO_INCREMENT,
+	idGrupoMateria INT AUTO_INCREMENT,
 	idGrupo INT NOT NULL,
-	idEstudiante INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	fechaInscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	CONSTRAINT PK_GRUPOESTUDIANTE PRIMARY KEY (idGrupoEstudiante),
-	CONSTRAINT FK_GRUPOESTUDIANTE_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON UPDATE CASCADE,
-	CONSTRAINT FK_GRUPOESTUDIANTE_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON UPDATE CASCADE,
-	CONSTRAINT FK_GRUPOESTUDIANTE_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo) ON UPDATE CASCADE
-);
-
-/*DocenteMateria*/
-CREATE TABLE DocenteMateria
-(
-	idDocenteMateria INT AUTO_INCREMENT,
-	idDocente INT NOT NULL,
-	idMateria INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	CONSTRAINT PK_DOCENTEMATERIA PRIMARY KEY (idDocenteMateria),
-	CONSTRAINT FK_DOCENTEMATERIA_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
-	CONSTRAINT FK_DOCENTEMATERIA_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
-	CONSTRAINT FK_DOCENTEMATERIA_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo)
-);
-
-/*Horario*/
-CREATE TABLE Horario
-(
-	idHorario INT AUTO_INCREMENT,
-	idGrupo INT NOT NULL,
-	idMateria INT NOT NULL,
-	idDocente INT NOT NULL,
-	idSalon INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	diaSemana ENUM('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes') NOT NULL,
+    idMateria INT NOT NULL,
 	horaInicio TIME NOT NULL,
 	horaFin TIME NOT NULL,
-	CONSTRAINT PK_HORARIO PRIMARY KEY (idHorario),
-	CONSTRAINT FK_HORARIO_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo),
-	CONSTRAINT FK_HORARIO_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
-	CONSTRAINT FK_HORARIO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
-	CONSTRAINT FK_HORARIO_SALON FOREIGN KEY (idSalon) REFERENCES Salon(idSalon),
-	CONSTRAINT FK_HORARIO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo)
+	CONSTRAINT PK_GRUPOMATERIA PRIMARY KEY (idGrupoMateria),
+    CONSTRAINT FK_GRUPOMATERIA_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_GRUPOMATERIA_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-/*Asistencia*/
-CREATE TABLE Asistencia
-(
-	idAsistencia INT AUTO_INCREMENT,
-	idEstudiante INT NOT NULL,
-	idHorario INT NOT NULL,
-	fecha DATE NOT NULL,
-	estado ENUM('presente', 'ausente') NOT NULL,
-	CONSTRAINT PK_ASISTENCIA PRIMARY KEY (idAsistencia),
-	CONSTRAINT FK_ASISTENCIA_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
-	CONSTRAINT FK_ASISTENCIA_HORARIO FOREIGN KEY (idHorario) REFERENCES Horario(idHorario)
-);
-
-/*MateriaAlumno*/
-CREATE TABLE MateriaAlumno
-(
-	idCalificacion INT AUTO_INCREMENT,
-	idEstudiante INT NOT NULL,
-	idMateria INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	idDocente INT NOT NULL,
-	calificacion DECIMAL(3,1) NOT NULL,
-	fechaRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
-	noIntento TINYINT(1) NOT NULL,
-	CONSTRAINT PK_MATERIAALUMNO PRIMARY KEY (idCalificacion),
-	CONSTRAINT FK_MATERIAALUMNO_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
-	CONSTRAINT FK_MATERIAALUMNO_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
-	CONSTRAINT FK_MATERIAALUMNO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo),
-	CONSTRAINT FK_MATERIAALUMNO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente)
-);
-
-/*Sancion*/
-CREATE TABLE Sancion
-(
-	idSancion INT AUTO_INCREMENT,
-	descripcion VARCHAR(100) CHARACTER SET utf8 NOT NULL,
-	duracionDias TINYINT(1) NOT NULL,
-	gravedad ENUM('leve', 'moderada', 'grave') NOT NULL,
-	CONSTRAINT PK_SANCION PRIMARY KEY (idSancion)
-);
-
-/*ReporteConducta*/
-CREATE TABLE ReporteConducta
-(
-	idReporteConducta INT AUTO_INCREMENT,
-	idEstudiante INT NOT NULL,
-	idDocente INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	fechaIncidente DATETIME NOT NULL,
-	fechaReporte DATETIME DEFAULT CURRENT_TIMESTAMP,
-	motivo VARCHAR(100) CHARACTER SET utf8 NOT NULL,
-	detalles VARCHAR(100) CHARACTER SET utf8 NOT NULL,
-	estado ENUM('iniciado', 'asignado', 'notificado', 'resuelto') DEFAULT 'iniciado',
-	CONSTRAINT PK_REPORTECONDUCTA PRIMARY KEY (idReporteConducta),
-	CONSTRAINT FK_REPORTECONDUCTA_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
-	CONSTRAINT FK_REPORTECONDUCTA_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
-	CONSTRAINT FK_REPORTECONDUCTA_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo)
-);
-
-/*ReporteSancion*/
-CREATE TABLE ReporteSancion
-(
-	idReporteSancion INT AUTO_INCREMENT,
-	idReporteConducta INT NOT NULL,
-	idSancion INT NOT NULL,
-	idAdmin INT NOT NULL,
-	fechaAsignacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-	fechaInicio DATE NOT NULL,
-	fechaFin DATE NOT NULL,
-	comentarios VARCHAR(100) CHARACTER SET utf8 NOT NULL,
-	CONSTRAINT PK_REPORTESANCION PRIMARY KEY (idReporteSancion),
-	CONSTRAINT FK_REPORTESANCION_REPORTECONDUCTA FOREIGN KEY (idReporteConducta) REFERENCES ReporteConducta(idReporteConducta),
-	CONSTRAINT FK_REPORTESANCION_SANCION FOREIGN KEY (idSancion) REFERENCES Sancion(idSancion),
-	CONSTRAINT FK_REPORTESANCION_ADMIN FOREIGN KEY (idAdmin) REFERENCES Administrador(idAdmin)
-);
-
-
-#################################################################################################################################
-
-DROP DATABASE gestion;
-CREATE DATABASE gestion
-USE gestion;
-
-GRANT ALL PRIVILEGES ON gestion.* TO 'root'@'localhost';  --Accede permisos de la base de datos locker al usuario root
-FLUSH PRIVILEGES;
 
 /*Usuario*/
 CREATE TABLE Usuario
@@ -377,6 +152,7 @@ CREATE TABLE Tutor
 (
     idTutor INT AUTO_INCREMENT,
     idUsuario INT NOT NULL UNIQUE,
+	idEstudiante INT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     paterno VARCHAR(50) NOT NULL,
     materno VARCHAR(50) NOT NULL,
@@ -387,84 +163,8 @@ CREATE TABLE Tutor
     correo VARCHAR(100) NOT NULL UNIQUE,
     RFC VARCHAR(13) NOT NULL,
     CONSTRAINT PK_TUTOR PRIMARY KEY (idTutor),
-    CONSTRAINT FK_TUTOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE TutorEstudiante 
-(
-    idTutorEstudiante INT AUTO_INCREMENT,
-    idTutor INT NOT NULL,
-    idEstudiante INT NOT NULL,
-    CONSTRAINT PK_TUTORESTUDIANTE_ESTUDIANTE PRIMARY KEY (idTutorEstudiante),
-    CONSTRAINT FK_TUTORESTUDIANTE_TUTOR FOREIGN KEY (idTutor) REFERENCES Tutor(idTutor) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FK_TUTORESTUDIANTE_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-/*Salon*/
-CREATE TABLE Salon
-(
-	idSalon INT AUTO_INCREMENT,
-	nombre VARCHAR(50) NOT NULL,
-	capacidad INT NOT NULL,
-	tipo ENUM('salon', 'taller') NOT NULL,
-	CONSTRAINT PK_SALON PRIMARY KEY (idSalon)
-);
-
-/*Periodo*/
-CREATE TABLE Periodo
-(
-	idPeriodo INT AUTO_INCREMENT,
-	fechaInicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	fechaFin  TIMESTAMP NULL,
-	estado ENUM('activo', 'inactivo', 'finalizado') DEFAULT 'inactivo',
-	CONSTRAINT PK_Periodo PRIMARY KEY(idPeriodo)
-);
-
-/*Grado*/
-CREATE TABLE Grado
-(
-	idGrado INT AUTO_INCREMENT,
-	grado TINYINT(1) NOT NULL,
-	CONSTRAINT PK_GRADO PRIMARY KEY (idGrado)
-);
-
-/*Grupo*/
-CREATE TABLE Grupo
-(
-	idGrupo INT AUTO_INCREMENT,
-	idGrado INT NOT NULL,
-	idPeriodo INT NOT NULL,
-	idSalon INT NOT NULL,
-	nombre VARCHAR(50) NOT NULL,
-	capacidad INT NOT NULL,
-	turno ENUM('matutino') DEFAULT 'matutino',
-	CONSTRAINT PK_GRUPO PRIMARY KEY (idGrupo),
-	CONSTRAINT FK_GRUPO_GRADO FOREIGN KEY (idGrado) REFERENCES Grado(idGrado) ON UPDATE CASCADE,
-	CONSTRAINT FK_GRUPO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo) ON UPDATE CASCADE,
-	CONSTRAINT FK_GRUPO_SALON FOREIGN KEY (idSalon) REFERENCES Salon(idSalon) ON UPDATE CASCADE
-);
-
-/*Materia*/
-CREATE TABLE Materia
-(
-	idMateria INT AUTO_INCREMENT,
-	idGrupo INT NOT NULL,
-	nombre VARCHAR(50) NOT NULL,
-	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
-	CONSTRAINT PK_Materia PRIMARY KEY (idMateria)
-);
-
-/*GrupoMateria*/
-CREATE TABLE GrupoMateria
-(
-	idGrupoMateria INT AUTO_INCREMENT,
-	idGrupo INT NOT NULL,
-    idMateria INT NOT NULL,
-	nombre VARCHAR(50) NOT NULL,
-	tipo ENUM('general', 'taller') DEFAULT 'general' NOT NULL,
-	CONSTRAINT PK_Materia PRIMARY KEY (idGrupoMateria),
-    CONSTRAINT FK_GRUPOMATERIA_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FK_GRUPOMATERIA_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_TUTOR_USUARIO FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_TUTOR_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*MateriaAlumno*/
@@ -484,3 +184,100 @@ CREATE TABLE MateriaAlumno
 	CONSTRAINT FK_MATERIAALUMNO_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo),
 	CONSTRAINT FK_MATERIAALUMNO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente)
 );
+
+/*DocenteMateria*/
+CREATE TABLE DocenteMateria
+(
+	idDocenteMateria INT AUTO_INCREMENT,
+	idDocente INT NOT NULL,
+	idMateria INT NOT NULL,
+	idPeriodo INT NOT NULL,
+	CONSTRAINT PK_DOCENTEMATERIA PRIMARY KEY (idDocenteMateria),
+	CONSTRAINT FK_DOCENTEMATERIA_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
+	CONSTRAINT FK_DOCENTEMATERIA_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
+	CONSTRAINT FK_DOCENTEMATERIA_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo)
+);
+
+/*Horario*/
+CREATE TABLE Horario
+(
+	idHorario INT AUTO_INCREMENT,
+	idGrupo INT NOT NULL,
+	idDocente INT NOT NULL,
+	horaInicio TIME NOT NULL,
+	horaFin TIME NOT NULL,
+	CONSTRAINT PK_HORARIO PRIMARY KEY (idHorario),
+	CONSTRAINT FK_HORARIO_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo),
+	CONSTRAINT FK_HORARIO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente)
+);
+
+/*Asistencia*/
+CREATE TABLE Asistencia
+(
+	idAsistencia INT AUTO_INCREMENT,
+	idEstudiante INT NOT NULL,
+	idHorario INT NOT NULL,
+	fecha DATE NOT NULL,
+	estado ENUM('presente', 'ausente') NOT NULL,
+	CONSTRAINT PK_ASISTENCIA PRIMARY KEY (idAsistencia),
+	CONSTRAINT FK_ASISTENCIA_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
+	CONSTRAINT FK_ASISTENCIA_HORARIO FOREIGN KEY (idHorario) REFERENCES Horario(idHorario)
+);
+
+/*GrupoEstudiante*/
+CREATE TABLE GrupoEstudiante
+(
+	idGrupoEstudiante INT AUTO_INCREMENT,
+	idGrupo INT NOT NULL,
+	idEstudiante INT NOT NULL,
+	fechaInscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT PK_GRUPOESTUDIANTE PRIMARY KEY (idGrupoEstudiante),
+	CONSTRAINT FK_GRUPOESTUDIANTE_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo) ON UPDATE CASCADE,
+	CONSTRAINT FK_GRUPOESTUDIANTE_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante) ON UPDATE CASCADE
+);
+
+/*Sancion*/
+CREATE TABLE Sancion
+(
+	idSancion INT AUTO_INCREMENT,
+	descripcion VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	duracionDias TINYINT(1) NOT NULL,
+	gravedad ENUM('leve', 'moderada', 'grave') NOT NULL,
+	CONSTRAINT PK_SANCION PRIMARY KEY (idSancion)
+);
+
+/*ReporteConducta*/
+CREATE TABLE ReporteConducta
+(
+	idReporteConducta INT AUTO_INCREMENT,
+	idEstudiante INT NOT NULL,
+	idDocente INT NOT NULL,
+	idPeriodo INT NOT NULL,
+	fechaIncidente DATETIME NOT NULL,
+	fechaReporte DATETIME DEFAULT CURRENT_TIMESTAMP,
+	motivo VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	detalles VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	estado ENUM('iniciado', 'asignado', 'notificado', 'resuelto') DEFAULT 'iniciado',
+	CONSTRAINT PK_REPORTECONDUCTA PRIMARY KEY (idReporteConducta),
+	CONSTRAINT FK_REPORTECONDUCTA_ESTUDIANTE FOREIGN KEY (idEstudiante) REFERENCES Estudiante(idEstudiante),
+	CONSTRAINT FK_REPORTECONDUCTA_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
+	CONSTRAINT FK_REPORTECONDUCTA_PERIODO FOREIGN KEY (idPeriodo) REFERENCES Periodo(idPeriodo)
+);
+
+/*ReporteSancion*/
+CREATE TABLE ReporteSancion
+(
+	idReporteSancion INT AUTO_INCREMENT,
+	idReporteConducta INT NOT NULL,
+	idSancion INT NOT NULL,
+	idAdmin INT NOT NULL,
+	fechaAsignacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+	fechaInicio DATE NOT NULL,
+	fechaFin DATE NOT NULL,
+	comentarios VARCHAR(100) CHARACTER SET utf8 NOT NULL,
+	CONSTRAINT PK_REPORTESANCION PRIMARY KEY (idReporteSancion),
+	CONSTRAINT FK_REPORTESANCION_REPORTECONDUCTA FOREIGN KEY (idReporteConducta) REFERENCES ReporteConducta(idReporteConducta),
+	CONSTRAINT FK_REPORTESANCION_SANCION FOREIGN KEY (idSancion) REFERENCES Sancion(idSancion),
+	CONSTRAINT FK_REPORTESANCION_ADMIN FOREIGN KEY (idAdmin) REFERENCES Administrador(idAdmin)
+);
+

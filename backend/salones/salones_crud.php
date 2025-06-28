@@ -1,16 +1,16 @@
 <?php
-require_once "../../db/conection/conn.php";
-$conexion = conectarBD();
+    require_once "../../db/conection/conn.php";
+    $conexion = conectarBD();
 
-$tipoFiltro = $_GET['tipo'] ?? 'todos';
+    $tipoFiltro = $_GET['tipo'] ?? 'todos';
 
-$query = "SELECT * FROM salon";
-if ($tipoFiltro !== 'todos') {
-    $query .= " WHERE tipo = '$tipoFiltro'";
-}
-$query .= " ORDER BY nombre ASC";
+    $query = "SELECT * FROM Salon";
+    if ($tipoFiltro !== 'todos') {
+        $query .= " WHERE tipo = '$tipoFiltro'";
+    }
+    $query .= " ORDER BY nombre ASC";
 
-$resultado = mysqli_query($conexion, $query);
+    $resultado = mysqli_query($conexion, $query);
 ?>
 
 <h3 class="mb-3">Gestión de Salones</h3>

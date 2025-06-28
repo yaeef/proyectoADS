@@ -7,23 +7,23 @@ INSERT INTO Administrador(idUsuario, noEmpleado,nombre,paterno,materno,telefono,
 
 
 /*Salones*/
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SA', '60', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SB', '60', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SC', '60', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SA', '30', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SB', '30', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SC', '30', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SA', '30', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SB', '30', 'salon');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SC', '30', 'salon');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SA', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SB', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1SC', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SA', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SB', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2SC', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SA', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SB', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3SC', '30');
 
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TA', '60', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TB', '60', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TC', '60', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TA', '30', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TB', '30', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TC', '30', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TA', '30', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TB', '30', 'taller');
-INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TC', '30', 'taller');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TA', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TB', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('1TC', '60');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TA', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TB', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('2TC', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TA', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TB', '30');
+INSERT INTO Salon(nombre, capacidad, tipo) VALUES('3TC', '30');
 
