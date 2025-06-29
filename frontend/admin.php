@@ -44,7 +44,7 @@
                         <div class="card" >
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Usur:<strong><?php echo "@".$_SESSION['usuario']; ?></strong></li>
+                                    <li class="list-group-item">User:<strong><?php echo "@".$_SESSION['usuario']; ?></strong></li>
                                     <li class="list-group-item">name: <strong><?php echo $_SESSION['nombre']; ?></strong></li>
                                     <li class="list-group-item">idEmp: <strong><?php echo $_SESSION['noEmpleado']; ?></strong></li>
                                 </ul>
@@ -54,7 +54,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"><a href="#" onclick="cargarUsuarios()" class="card-link">Usuarios</a></li>
                                     <li class="list-group-item"><a href="#" onclick="cargarSalones()" class="card-link">Salones</a></li>
-                                    <li class="list-group-item"><a href="#" class="card-link">Grupos</a></li>
+                                    <li class="list-group-item"><a href="#" onclick="cargarGrupos()" class="card-link">Grupos</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
                                     <li class="list-group-item"><a href="#" onclick="cargarMaterias()" class="card-link">Materias</a></li>
                                     <li class="list-group-item"><a href="#" class="card-link">Sanciones</a></li>
@@ -103,6 +103,7 @@
     <script src="js/admin_usuarios.js"></script>
     <script src="js/admin_materias.js"></script>
     <script src="js/admin_salones.js"></script>   <!-- Este es el archivo JS donde se encuentra la lógica para mostrar los salones y modales de forma dinámica-->
+    <script src="js/admin_grupos.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
