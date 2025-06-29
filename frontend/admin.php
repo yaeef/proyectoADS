@@ -80,7 +80,7 @@
         </section>
         <!-- Modal para CRUD, es una plantilla vacia que se llena dependiendo del modal necesario -->
         <div id="modalCRUD" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content" id="modalContentCRUD">
             <!-- Aquí se carga contenido dinámico dependiendo de la función del CRUD-->
             </div>
