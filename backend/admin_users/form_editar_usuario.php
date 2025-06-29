@@ -126,6 +126,43 @@
         }
         $user = mysqli_fetch_assoc($resultado);
     }
+    else if($tipoUsuario === 'tutor')
+    {
+        $query = "
+            SELECT 
+                u.idUsuario,
+                u.usuario,
+                u.contrasena,
+                u.tipo,
+                u.bloqueado,
+                u.ultimoLogin,
+                u.fechaRegistro,
+                t.idTutor,
+                t.nombre,
+                t.paterno,
+                t.materno,
+                t.calle,
+                t.telefono,
+                t.colonia,
+                t.CP,
+                t.fechaNacimiento,
+                t.correo,
+                t.RFC
+            FROM 
+                Usuario u
+            JOIN 
+                Tutor t ON u.idUsuario = t.idUsuario
+            WHERE 
+                u.idUsuario = $idUsuario;
+        ";
+        $resultado = mysqli_query($conexion, $query);
+        if (!$resultado || mysqli_num_rows($resultado) == 0) 
+        {
+            echo "<div class='alert alert-danger'>Usuario  Tutor no encontrado</div>";
+            exit;
+        }
+        $user = mysqli_fetch_assoc($resultado);
+    }
 ?>
 
 <div class="modal-header">
@@ -173,7 +210,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">CP</label>
-            <input type="text" class="form-control" name="CP" value="<?= $user['CP'] ?>" required>
+            <input type="text" class="form-control" name="CP" value="<?= $user['CP'] ?>" placeholder="Ejemplo: 55170" pattern="[0-9]{5}" maxlength="5" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Fecha de nacimiento</label>
@@ -196,11 +233,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Telefono</label>
-                <input type="tel" class="form-control" name="telefono" value="<?= $user['telefono'] ?>" required>
+                <input type="tel" class="form-control" name="telefono" value="<?= $user['telefono'] ?>" placeholder="Ejemplo: 5512345678" pattern="[0-9]{10}" maxlength="10" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">RFC</label>
-                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" required>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Padecimientos</label>
@@ -217,11 +254,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Telefono</label>
-                <input type="tel" class="form-control" name="telefono" value="<?= $user['telefono'] ?>" required>
+                <input type="tel" class="form-control" name="telefono" value="<?= $user['telefono'] ?>" placeholder="Ejemplo: 5512345678" pattern="[0-9]{10}" maxlength="10" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">RFC</label>
-                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" required>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">¿Tipo?</label>
@@ -245,11 +282,24 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">CURP</label>
-                <input type="text" class="form-control" name="curp" value="<?= $user['CURP'] ?>" required>
+                <input type="text" class="form-control" name="curp" value="<?= $user['CURP'] ?>"  placeholder="Ejemplo: ABCD123456EFGHIJ78" pattern="[A-Z]{4}\\d{6}[HM]{1}[A-Z]{2}[A-Z0-9]{5}" maxlength="18" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Padecimientos</label>
                 <input type="text" class="form-control" name="padecimientos" value="<?= $user['padecimientos'] ?>" required>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($tipoUsuario === 'tutor'): /*Campos extra para Admin*/?>  
+            <input type="hidden" name="idTutor" value="<?= $user['idTutor'] ?>">     <!--Valores para facilitar UPDATE EN DRIVER-->
+            <strong><label for="adminOp">Datos de Tutor</label></strong>
+            <div class="mb-3">
+                <label class="form-label">Telefono</label>
+                <input type="tel" class="form-control" name="telefono" value="<?= $user['telefono'] ?>" placeholder="Ejemplo: 5512345678" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">RFC</label>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
         <?php endif; ?>
     </form>

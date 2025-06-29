@@ -3,6 +3,23 @@
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
+        /*Captcha*/
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $captcha = $_POST['g-recaptcha-response'];
+        $secretKey = "6LdAI3IrAAAAAKFNzO4aese2IlAq-w8XrxIcdkur";
+
+        $resp = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha&remoteip=$ip");
+
+        $att = json_decode($resp, TRUE);
+
+        if(!$att['success'])
+        {
+            header("location:../frontend/login.php?notif=5");
+            exit();
+        }
+
+
+
         $conexion = conectarBD();
         $usuario = $_POST['usuario'];
         $password = $_POST['password'];

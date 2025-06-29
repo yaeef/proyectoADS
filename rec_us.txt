@@ -74,7 +74,7 @@ El sistema debe abarcar:
         -Inicia sesión con boleta y contraseña
         
     Información del tutor:
-        -Boleta del hijo
+        -Boleta del hijo LE AGREGGUE UNA T AL INICIO PARA NO TENER USUARIOS DUPLICADOS
         -Nombre
         -Apellidos
         -Dirección

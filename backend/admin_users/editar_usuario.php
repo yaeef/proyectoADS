@@ -80,10 +80,14 @@
             mysqli_stmt_execute($stmt);
             break;
         case 'tutor':
+            $idTutor = $_POST['idTutor'];
+            $telefono = $_POST['telefono'];
+            $rfc = $_POST['rfc'];
 
-            $query = "UPDATE Tutor SET nombre = ?, paterno = ? WHERE idUsuario = ?";
+            $query = "UPDATE Tutor SET nombre = ?, paterno = ? , materno = ?, calle = ?, colonia = ?, cp = ?, fechaNacimiento = ?, correo = ?, telefono = ?, RFC = ? WHERE idTutor = ?";
             $stmt = mysqli_prepare($conexion, $query);
-            mysqli_stmt_bind_param($stmt, "ssi", $nombre, $paterno, $idUsuario);
+            mysqli_stmt_bind_param($stmt, "ssssssssssi", $nombre, $paterno, $materno, $calle, $colonia, $cp, $nacimiento, $correo, $telefono, $rfc, $idTutor);
+            mysqli_stmt_execute($stmt);
             break;
         default:
             echo "Tipo no válido";

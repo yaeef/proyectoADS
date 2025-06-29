@@ -6,6 +6,7 @@
     <link rel="icon" href="img/tbs.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Admin</title>
 </head>
 <body>
@@ -57,7 +58,8 @@
                     </div>
                     </div>
                     <div class="formulario__boton">
-                        <input class="boton" type="reset" value="Limpiar">
+                        <div class="g-recaptcha"  data-sitekey="6LdAI3IrAAAAAHucDUymr0v2oFeHCfyyWVJ81y1o" ></div>
+                        <input class="boton" type="reset" value="reset">
                         <input class="boton" type="submit" value="login">
                     </div>
                 </fieldset>

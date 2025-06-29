@@ -1,5 +1,5 @@
 <?php
-require "../../db/conection/conn.php";
+    require "../../db/conection/conn.php";
 ?>
 
 <div class="modal-header">
@@ -124,8 +124,32 @@ require "../../db/conection/conn.php";
                 </div>
             `;
         }
-        else if (tipo === 'tutor') //Falta asignarle un alumno
+        else if (tipo === 'tutor')
         {
+            <?php
+                $conexion = conectarBD();
+                $query = "SELECT   #Se obtienen los alumnos sin tutor asignado
+                            E.idEstudiante, 
+                            E.boleta, 
+                            CONCAT(E.nombre, ' ', E.paterno, ' ', E.materno) AS nombre_completo
+                        FROM 
+                            Estudiante E
+                        LEFT JOIN 
+                            Tutor T ON E.idEstudiante = T.idEstudiante
+                        WHERE 
+                            T.idEstudiante IS NULL;";
+                
+                $resultado = mysqli_query($conexion, $query);
+                $estudiantes = array();
+                if (mysqli_num_rows($resultado) > 0)
+                {
+                    while ($fila = mysqli_fetch_assoc($resultado)) {
+                        $estudiantes[] = $fila;
+                    }
+                } 
+                
+                desconectarBD($conexion);
+            ?>
             html = `
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
@@ -135,11 +159,25 @@ require "../../db/conection/conn.php";
                     <label for="rfc" class="form-label">RFC</label>
                     <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
                 </div>
+                <div class="mb-3">
+                    <label for="idEstudiante" class="form-label">Seleccionar Alumno</label>
+                    <select class="form-select" id="idEstudiante" name="idEstudiante" required>
+                        <option value="" disabled selected>Selecciona un alumno</option>
             `;
+
+            <?php foreach ($estudiantes as $estudiante): ?>
+                html += `
+                    <option value="<?= $estudiante['idEstudiante'] ?>">
+                        <?= $estudiante['nombre_completo'] ?> - <?= $estudiante['boleta'] ?>
+                    </option>
+                `;
+            <?php endforeach; ?>
+
+            html += `</select></div>`;   
         } 
         else 
         {
-            html = ''; // tutor no tiene identificador extra
+            html = ''; 
         }
         $('#campoIdentificador').html(html);
     });
