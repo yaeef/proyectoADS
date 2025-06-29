@@ -45,6 +45,15 @@
             echo "Error al insertar en Administrador: " . mysqli_error($conexion);
             exit;
         }
+        #Mandamos por correo el user y password :)
+        $asunto = 'Bienvenido a nuestro sistema escolar';
+        $cuerpo = "Hola, \n\nTu cuenta ha sido creada exitosamente. Aquí están tus credenciales de acceso:\n\n";
+        $cuerpo .= "Usuario: $usuario\n";
+        $cuerpo .= "Contraseña: $contrasena\n\n";
+        $cuerpo .= "Gracias por registrarte con nosotros.\n\n";
+        $headers = 'From: noreply@gestionescolar.com';
+        mail($correo, $asunto, $cuerpo, $headers);
+
     }
     else if($tipo === "docente")  #Añadir docente
     {
@@ -89,6 +98,14 @@
             echo "Error al insertar en Docente: " . mysqli_error($conexion);
             exit;
         }
+        #Mandamos por correo el user y password :)
+        $asunto = 'Bienvenido a nuestro sistema escolar';
+        $cuerpo = "Hola, \n\nTu cuenta ha sido creada exitosamente. Aquí están tus credenciales de acceso:\n\n";
+        $cuerpo .= "Usuario: $usuario\n";
+        $cuerpo .= "Contraseña: $contrasena\n\n";
+        $cuerpo .= "Gracias por registrarte con nosotros.\n\n";
+        $headers = 'From: noreply@gestionescolar.com';
+        mail($correo, $asunto, $cuerpo, $headers);
     }
     else if($tipo === "estudiante")  #Añadir Estudiante
     {
@@ -133,8 +150,16 @@
             echo "Error al insertar en Estudiante: " . mysqli_error($conexion);
             exit;
         }
-        #Esta pendiente crear tutores porque se debe listar los estudiantes sin tutor
-    }
+        #Mandamos por correo el user y password :)
+        $asunto = 'Bienvenido a nuestro sistema escolar';
+        $cuerpo = "Hola, \n\nTu cuenta ha sido creada exitosamente. Aquí están tus credenciales de acceso:\n\n";
+        $cuerpo .= "Usuario: $usuario\n";
+        $cuerpo .= "Contraseña: $contrasena\n\n";
+        $cuerpo .= "Gracias por registrarte con nosotros.\n\n";
+        $headers = 'From: noreply@gestionescolar.com';
+        mail($correo, $asunto, $cuerpo, $headers);
+        
+    }#Esta pendiente crear tutores porque se debe listar los estudiantes sin tutor
     desconectarBD($conexion);
     echo "OK";
 ?>
