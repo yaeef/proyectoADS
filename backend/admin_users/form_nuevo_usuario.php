@@ -7,7 +7,7 @@ require "../../db/conection/conn.php";
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
 </div>
 <div class="modal-body ">
-    <form id="formNuevoUsuario">
+    <form id="formNuevoUsuario"> 
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de Usuario</label>
             <select class="form-select" id="tipo" name="tipo" required>
@@ -74,7 +74,7 @@ require "../../db/conection/conn.php";
                 </div>
                 <div class="mb-3">
                     <label for="rfc" class="form-label">RFC</label>
-                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="[A-Z]{4}\d{6}[A-Z0-9]{3}" maxlength="13" required>
+                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
                 </div>
                 <div class="mb-3">
                     <label for="padecimientos" class="form-label">Padecimientos</label>
@@ -91,7 +91,7 @@ require "../../db/conection/conn.php";
                 </div>
                 <div class="mb-3">
                     <label for="rfc" class="form-label">RFC</label>
-                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="[A-Z]{4}\d{6}[A-Z0-9]{3}" maxlength="13" required>
+                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
                 </div>
                 <div class="mb-3">
                     <label for="tipoDocente" class="form-label">Tipo de Docente</label>
@@ -112,7 +112,11 @@ require "../../db/conection/conn.php";
             html = `
                 <div class="mb-3">
                     <label for="curp" class="form-label">CURP</label>
-                    <input type="text" class="form-control" id="curp" name="curp" placeholder="Ejemplo: ABCD123456EFGHIJ78" pattern="[A-Z]{4}\d{6}[HM]{1}[A-Z]{2}[A-Z0-9]{5}" maxlength="18" required>
+                    <input type="text" class="form-control" id="curp" name="curp" placeholder="Ejemplo: ABCD123456EFGHIJ78" pattern="[A-Z]{4}\\d{6}[HM]{1}[A-Z]{2}[A-Z0-9]{5}" maxlength="18" required>
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Ejemplo: ejemplo@dominio.com" required>
                 </div>
                 <div class="mb-3">
                     <label for="padecimientos" class="form-label">Padecimientos</label>
@@ -129,7 +133,7 @@ require "../../db/conection/conn.php";
                 </div>
                 <div class="mb-3">
                     <label for="rfc" class="form-label">RFC</label>
-                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="[A-Z]{4}\d{6}[A-Z0-9]{3}" maxlength="13" required>
+                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
                 </div>
             `;
         } 

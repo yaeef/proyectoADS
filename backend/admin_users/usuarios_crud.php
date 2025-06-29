@@ -101,7 +101,7 @@
                 <td><?= htmlspecialchars($row['paterno']) ?></td>
                 <td><?= htmlspecialchars($row['identificador']) ?></td>
                     <td>
-                        <button class="btn btn-outline-primary btn-sm" onclick="editarUsuario(<?= $row['idUsuario'] ?>)">Editar</button>
+                        <button class="btn btn-outline-primary btn-sm" onclick="editarUsuario(<?= $row['idUsuario'] ?> , '<?= $row['tipo'] ?>')">Editar</button>
                         <button class="btn btn-outline-danger btn-sm" onclick="eliminarUsuario(<?= $row['idUsuario'] ?>)">Eliminar</button>
                     </td>
                 </td>

@@ -1,61 +1,140 @@
 <?php
-require "../../db/conection/conn.php";
-$conexion = conectarBD();
+    require "../../db/conection/conn.php";
+    $conexion = conectarBD();
+    $tipo = $_POST['tipo'] ?? '';
 
-$usuario = $_POST['usuario'] ?? '';
-$contrasena = $_POST['contrasena'] ?? '';
-$tipo = $_POST['tipo'] ?? '';
-$nombre = $_POST['nombre'] ?? '';
-$paterno = $_POST['paterno'] ?? '';
-$identificador = $_POST['noEmpleado'] ?? ($_POST['boleta'] ?? '');
+    if($tipo === "admin") #Añadir administrador
+    {
+        $nombre = $_POST['nombre'] ?? '';
+        $paterno = $_POST['paterno'] ?? '';
+        $materno = $_POST['materno'] ?? '';
+        $telefono = $_POST['telefono'] ?? '';
+        $calle = $_POST['calle'] ?? '';
+        $colonia = $_POST['colonia'] ?? '';
+        $cp = $_POST['cp'] ?? '';
+        $nacimiento = $_POST['nacimiento'] ?? '';
+        $correo = $_POST['correo'] ?? '';
+        $rfc = $_POST['rfc'] ?? '';
+        $padecimientos = $_POST['padecimientos'] ?? '';
 
-if ($usuario === '' || $contrasena === '' || $tipo === '' || $nombre === '' || $paterno === '') {
-    echo "Faltan datos obligatorios";
-    exit;
-}
+        if ($tipo === '' || $nombre === '' || $paterno === '' || $materno === '' || $telefono === '' || $calle === '' || $colonia === '' || $cp === '' || $nacimiento === '' || $correo === '' || $rfc === '' || $padecimientos === '') 
+        {
+            echo "Faltan datos obligatorios";
+            exit;
+        }
+        #Inserción en tabla Usuarios (Se deben generar el usuario y contraseña)
+        $usuario = 'A' . rand(100000, 999999);  #Aqui se genera los 6 números aleatorios y se concatenan a "A"
+        $contrasena = 'A' . $rfc . rand(100,999);#Aqui se genera la contrasena como A+RFC+3 números aleatorios :)
+        $insertUsuario = "INSERT INTO Usuario (usuario, contrasena, tipo) VALUES (?, ?, ?)";
+        $stmt = mysqli_prepare($conexion, $insertUsuario);
+        mysqli_stmt_bind_param($stmt, "sss", $usuario, $contrasena, $tipo);
 
-// Insertar en Usuario
-$insertUsuario = "INSERT INTO Usuario (usuario, contrasena, tipo, bloqueado) VALUES (?, ?, ?, 0)";
-$stmt = mysqli_prepare($conexion, $insertUsuario);
-mysqli_stmt_bind_param($stmt, "sss", $usuario, $contrasena, $tipo);
-if (!mysqli_stmt_execute($stmt)) {
-    echo "Error al insertar en Usuario: " . mysqli_error($conexion);
-    exit;
-}
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Usuario: " . mysqli_error($conexion);
+            exit;
+        }
 
-$idUsuario = mysqli_insert_id($conexion);
+        #Ahora que se inserto el usuario necesitamos recuperar el id con el que se creo para vincularlo con la tabla Administrador
+        $idUsuario = mysqli_insert_id($conexion);
+        $insertAdmin = "INSERT INTO Administrador(idUsuario,noEmpleado, nombre, paterno, materno, telefono, calle, colonia, CP, fechaNacimiento, correo, RFC, padecimientos) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $stmt = mysqli_prepare($conexion, $insertAdmin);
+        mysqli_stmt_bind_param($stmt, "issssssssssss", $idUsuario, $usuario, $nombre, $paterno, $materno, $telefono, $calle, $colonia, $cp, $nacimiento, $correo, $rfc, $padecimientos);
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Administrador: " . mysqli_error($conexion);
+            exit;
+        }
+    }
+    else if($tipo === "docente")  #Añadir docente
+    {
+        $nombre = $_POST['nombre'] ?? '';
+        $paterno = $_POST['paterno'] ?? '';
+        $materno = $_POST['materno'] ?? '';
+        $telefono = $_POST['telefono'] ?? '';
+        $calle = $_POST['calle'] ?? '';
+        $colonia = $_POST['colonia'] ?? '';
+        $cp = $_POST['cp'] ?? '';
+        $nacimiento = $_POST['nacimiento'] ?? '';
+        $correo = $_POST['correo'] ?? '';
+        $rfc = $_POST['rfc'] ?? '';
+        $tipoDocente = $_POST['tipoDocente'];
+        $padecimientos = $_POST['padecimientos'] ?? '';
 
-// Insertar en tabla específica según tipo
-switch ($tipo) {
-    case 'admin':
-        $query = "INSERT INTO Administrador (idUsuario, nombre, paterno, noEmpleado) VALUES (?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "isss", $idUsuario, $nombre, $paterno, $identificador);
-        break;
-    case 'docente':
-        $query = "INSERT INTO Docente (idUsuario, nombre, paterno, noEmpleado, tipo) VALUES (?, ?, ?, ?, 'base')";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "isss", $idUsuario, $nombre, $paterno, $identificador);
-        break;
-    case 'estudiante':
-        $query = "INSERT INTO Estudiante (idUsuario, nombre, paterno, boleta) VALUES (?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "isss", $idUsuario, $nombre, $paterno, $identificador);
-        break;
-    case 'tutor':
-        $query = "INSERT INTO Tutor (idUsuario, nombre, paterno) VALUES (?, ?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "iss", $idUsuario, $nombre, $paterno);
-        break;
-    default:
-        echo "Tipo de usuario inválido";
-        exit;
-}
+        if ($tipo === '' || $nombre === '' || $paterno === '' || $materno === '' || $telefono === '' || $calle === '' || $colonia === '' || $cp === '' || $nacimiento === '' || $correo === '' || $rfc === '' || $padecimientos === '' || $tipoDocente === '') 
+        {
+            echo "Faltan datos obligatorios";
+            exit;
+        }
+        #Inserción en tabla Usuarios (Se deben generar el usuario y contraseña)
+        $usuario = 'D' . rand(100000, 999999);  #Aqui se genera los 6 números aleatorios y se concatenan a "A"
+        $contrasena = $tipoDocente . $rfc . rand(100,999);#Aqui se genera la contrasena como [CA|CB]+RFC+3 números aleatorios :)
+        $insertUsuario = "INSERT INTO Usuario (usuario, contrasena, tipo) VALUES (?, ?, ?)";
+        $stmt = mysqli_prepare($conexion, $insertUsuario);
+        mysqli_stmt_bind_param($stmt, "sss", $usuario, $contrasena, $tipo);
 
-if (!mysqli_stmt_execute($stmt)) {
-    echo "Error al insertar tipo $tipo: " . mysqli_error($conexion);
-    exit;
-}
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Usuario: " . mysqli_error($conexion);
+            exit;
+        }
 
-desconectarBD($conexion);
-echo "OK";
+        #Ahora que se inserto el usuario necesitamos recuperar el id con el que se creo para vincularlo con la tabla Docente
+        $idUsuario = mysqli_insert_id($conexion);
+        $insertDocente = "INSERT INTO Docente(idUsuario,noEmpleado, nombre, paterno, materno, telefono, calle, colonia, CP, fechaNacimiento, correo, RFC, tipo, padecimientos) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $stmt = mysqli_prepare($conexion, $insertDocente);
+        mysqli_stmt_bind_param($stmt, "isssssssssssss", $idUsuario, $usuario, $nombre, $paterno, $materno, $telefono, $calle, $colonia, $cp, $nacimiento, $correo, $rfc, $tipoDocente,$padecimientos);
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Docente: " . mysqli_error($conexion);
+            exit;
+        }
+    }
+    else if($tipo === "estudiante")  #Añadir Estudiante
+    {
+        $nombre = $_POST['nombre'] ?? '';
+        $paterno = $_POST['paterno'] ?? '';
+        $materno = $_POST['materno'] ?? '';
+        $telefono = $_POST['telefono'] ?? '';
+        $calle = $_POST['calle'] ?? '';
+        $colonia = $_POST['colonia'] ?? '';
+        $cp = $_POST['cp'] ?? '';
+        $nacimiento = $_POST['nacimiento'] ?? '';
+        $correo = $_POST['correo'] ?? '';
+        $curp = $_POST['curp'] ?? '';
+        $padecimientos = $_POST['padecimientos'] ?? '';
+
+        if ($tipo === '' || $nombre === '' || $paterno === '' || $materno === '' || $telefono === '' || $calle === '' || $colonia === '' || $cp === '' || $nacimiento === ''  || $correo === '' || $curp === '' || $padecimientos === '') 
+        {
+            echo "Faltan datos obligatorios";
+            exit;
+        }
+        #Inserción en tabla Usuarios (Se deben generar el usuario y contraseña)
+        $randomNum = rand(1000, 9999);                          #Se almacena porque se usara en la contraseña y en la boleta
+        $usuario = 'B' . date("Y") . $randomNum;                #Aqui se genera los 4 números aleatorios y se concatenan a "B" junto al año en curso
+        $contrasena = substr($nombre, 0, 1) . substr($paterno, 0, 1) . substr($materno, 0, 1) . 'B' . $randomNum;    #Aqui se genera la contrasena como INICIALES+B+NUMEROS ALEATORIOS :)
+        $insertUsuario = "INSERT INTO Usuario (usuario, contrasena, tipo) VALUES (?, ?, ?)";
+        $stmt = mysqli_prepare($conexion, $insertUsuario);
+        mysqli_stmt_bind_param($stmt, "sss", $usuario, $contrasena, $tipo);
+
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Usuario: " . mysqli_error($conexion);
+            exit;
+        }
+
+        #Ahora que se inserto el usuario necesitamos recuperar el id con el que se creo para vincularlo con la tabla Docente
+        $idUsuario = mysqli_insert_id($conexion);
+        $insertEstudiante = "INSERT INTO Estudiante(idUsuario,boleta, nombre, paterno, materno, calle, colonia, CP, fechaNacimiento, correo, CURP, padecimientos) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
+        $stmt = mysqli_prepare($conexion, $insertEstudiante);
+        mysqli_stmt_bind_param($stmt, "isssssssssss", $idUsuario, $usuario, $nombre, $paterno, $materno, $calle, $colonia, $cp, $nacimiento, $correo, $curp, $padecimientos);
+        if (!mysqli_stmt_execute($stmt)) 
+        {
+            echo "Error al insertar en Estudiante: " . mysqli_error($conexion);
+            exit;
+        }
+        #Esta pendiente crear tutores porque se debe listar los estudiantes sin tutor
+    }
+    desconectarBD($conexion);
+    echo "OK";
+?>

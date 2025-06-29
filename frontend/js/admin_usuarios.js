@@ -24,11 +24,11 @@ function mostrarFormularioNuevoUsuario() {
     });
 }
 
-function editarUsuario(id) {
+function editarUsuario(id, tipoUsuario) {
     $.ajax({
         url: '../backend/admin_users/form_editar_usuario.php',
         method: 'GET',
-        data: { idUsuario: id },
+        data: { idUsuario: id , tipo: tipoUsuario},
         success: function (html) {
             $('#modalContentCRUD').html(html);
             $('#modalCRUD').modal('show');
