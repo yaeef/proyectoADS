@@ -176,7 +176,7 @@
 
         /*Necesitamos recuperar la boleta y contraseña del estudiante*/
         $queryEstudiante = "
-                            SELECT CONCAT('T', E.boleta) AS boleta, U.contrasena
+                            SELECT E.boleta, U.contrasena
                             FROM Estudiante E
                             JOIN Usuario U ON E.idUsuario = U.idUsuario
                             WHERE E.idEstudiante = ?
@@ -187,7 +187,7 @@
         mysqli_stmt_execute($stmt);
 
         mysqli_stmt_bind_result($stmt, $usuario, $password);
-        $usuario .= "T";
+        
         if (!mysqli_stmt_fetch($stmt)) 
         {
             echo "Estudiante no encontrado.";
@@ -203,6 +203,7 @@
             exit;
         }
         #Inserción en tabla Tutor
+        $usuario = str_replace("B", "BA", $usuario);
         $contrasena = str_replace("B", "BA", $password);  #Aqui se modifica la contraseña del estudiante
         $insertUsuario = "INSERT INTO Usuario (usuario, contrasena, tipo) VALUES (?, ?, ?)";
         $stmt = mysqli_prepare($conexion, $insertUsuario);

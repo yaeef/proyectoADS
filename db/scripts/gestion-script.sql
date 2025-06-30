@@ -206,12 +206,17 @@ CREATE TABLE Horario
 (
 	idHorario INT AUTO_INCREMENT,
 	idGrupo INT NOT NULL,
+	idMateria INT NOT NULL,
 	idDocente INT NOT NULL,
+	idSalon INT NOT NULL,
+	dia ENUM('lunes','martes','miércoles','jueves','viernes') NOT NULL,
 	horaInicio TIME NOT NULL,
 	horaFin TIME NOT NULL,
 	CONSTRAINT PK_HORARIO PRIMARY KEY (idHorario),
 	CONSTRAINT FK_HORARIO_GRUPO FOREIGN KEY (idGrupo) REFERENCES Grupo(idGrupo),
-	CONSTRAINT FK_HORARIO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente)
+	CONSTRAINT FK_HORARIO_DOCENTE FOREIGN KEY (idDocente) REFERENCES Docente(idDocente),
+	CONSTRAINT FK_HORARIO_MATERIA FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
+	CONSTRAINT FK_HORARIO_SALON FOREIGN KEY (idSalon) REFERENCES Salon(idSalon)
 );
 
 /*Asistencia*/
