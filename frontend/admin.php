@@ -58,6 +58,7 @@
                                     <li class="list-group-item"><a href="#" class="card-link">Horarios</a></li>
                                     <li class="list-group-item"><a href="#" onclick="cargarMaterias()" class="card-link">Materias</a></li>
                                     <li class="list-group-item"><a href="#" onclick="cargarModuloDisciplina()"class="card-link">Sanciones</a></li>
+				    <li class="list-group-item"><a href="#" onclick="cargarInscripciones()" class="card-link">Inscripciones</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -105,6 +106,7 @@
     <script src="js/admin_salones.js"></script>   <!-- Este es el archivo JS donde se encuentra la lógica para mostrar los salones y modales de forma dinámica-->
     <script src="js/admin_grupos.js"></script>
     <script src="js/admin_disciplina.js"></script>
+    <script src="js/admin_grupo_estudiante.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
