@@ -237,7 +237,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">RFC</label>
-                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Padecimientos</label>
@@ -258,7 +258,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">RFC</label>
-                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">¿Tipo?</label>
@@ -282,7 +282,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">CURP</label>
-                <input type="text" class="form-control" name="curp" value="<?= $user['CURP'] ?>"  placeholder="Ejemplo: ABCD123456EFGHIJ78" pattern="[A-Z]{4}\\d{6}[HM]{1}[A-Z]{2}[A-Z0-9]{5}" maxlength="18" required>
+                <input type="text" class="form-control" name="curp" value="<?= $user['CURP'] ?>"  placeholder="Ejemplo: ABCD123456EFGHIJ78" pattern="[A-Z]{4}\d{6}[HM]{1}[A-Z]{2}[A-Z0-9]{5}" maxlength="18" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Padecimientos</label>
@@ -299,7 +299,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">RFC</label>
-                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\\d{6}[A-Z0-9]{3}$" maxlength="13" required>
+                <input type="text" class="form-control" name="rfc" value="<?= $user['RFC'] ?>" placeholder="Ejemplo: ABCD123456EFG" pattern="^[A-Z]{4}\d{6}[A-Z0-9]{3}$" maxlength="13" required>
             </div>
         <?php endif; ?>
     </form>
